@@ -1,5 +1,6 @@
 require "sexymigrations/version"
 require 'rake'
+require 'rails'
 
 import File.join(File.dirname(__FILE__), 'tasks', 'db.rake')
 
