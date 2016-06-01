@@ -1,5 +1,11 @@
 require "sexymigrations/version"
+require 'rake'
 
-module Sexymigrations
-  # Your code goes here...
+import File.join(File.dirname(__FILE__), 'tasks', 'db.rake')
+
+module SexyMigrations
+  class Squash
+    def call
+    end
+  end
 end
