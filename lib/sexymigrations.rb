@@ -23,7 +23,7 @@ module SexyMigrations
     private
 
     def select_unnecessary_migrations
-      Dir.glob(File.join(migrations_folder, "**/*")).select {|filename| !filename.match(/_create_/) }
+      Dir.glob(File.join(migrations_folder, "**/*")).select { |filename| !filename.match(/_create_/) }
     end
 
     def delete_files(other_migrations)
@@ -35,11 +35,11 @@ module SexyMigrations
     end
 
     def migrations_folder
-      File.join(root_path, "db/migrate/")
+      File.join(root_path, ActiveRecord::Migrator.migrations_path)
     end
 
     def root_path
-      Dir.pwd
+      Rails.root
     end
   end
 end
