@@ -5,12 +5,12 @@ require 'sexymigrations/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "sexymigrations"
-  spec.version       = Sexymigrations::VERSION
+  spec.version       = "0.0.1"
   spec.authors       = ["AlexShmatko"]
   spec.email         = ["alex.shmatko@active-bridge.com"]
 
   spec.summary       = %q{Allows you to make migrations look sexy.}
-  spec.description   = %q{TODO: Write a longer description or delete this line.}
+  # spec.description   = %q{TODO: Write a longer description or delete this line}
   spec.homepage      = "https://github.com/activebridge/sexy-migrations"
   spec.license       = "MIT"
 

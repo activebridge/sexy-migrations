@@ -1,3 +1,3 @@
-module Sexymigrations
-  VERSION = "0.1.0"
+module SexyMigrations
+  VERSION = "0.0.1"
 end
