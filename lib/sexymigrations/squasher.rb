@@ -5,6 +5,7 @@ module SexyMigrations
       create_table.select do |selected_block|
         find_table_name(selected_block)
         rewrite_migration(selected_block)
+        append_foreign_keys_and_indexes
       end
     end
 
@@ -30,6 +31,17 @@ module SexyMigrations
     end
 
     private
+
+    def append_foreign_keys_and_indexes
+      File.foreach(schema_location) do |line|
+        if line =~ /add_index "#{@table_name}"|add_foreign_key "#{@table_name}"/
+          File.open(Dir.glob(File.join(SexyMigrations.migrations_folder, "**/*")).select { |f| f.match("#{@table_name}") }.first, 'a') do |f|
+            f.puts
+            f.write(line)
+          end
+        end
+      end
+    end
 
     def matched_migration
       Dir.glob(File.join(SexyMigrations.migrations_folder, "**/*")).select { |f| f.match("#{@table_name}") }.first
