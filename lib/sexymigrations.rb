@@ -14,6 +14,10 @@ module SexyMigrations
     Squasher.new.start
   end
 
+  def migrations_folder
+    File.join(root_path, ActiveRecord::Migrator.migrations_path)
+  end
+
   def root_path
     Rails.root
   end

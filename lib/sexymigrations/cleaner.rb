@@ -9,14 +9,10 @@ module SexyMigrations
       delete_files
     end
 
-    def migrations_folder
-      File.join(SexyMigrations.root_path, ActiveRecord::Migrator.migrations_path)
-    end
-
     private
 
     def select_unnecessary_migrations
-      @other_migrations = Dir.glob(File.join(migrations_folder, "**/*")).select do |filename|
+      @other_migrations = Dir.glob(File.join(SexyMigrations.migrations_folder, "**/*")).select do |filename|
         !filename.match(/_create_/)
       end
     end
