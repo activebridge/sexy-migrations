@@ -1,45 +1,24 @@
-require "sexymigrations/version"
-require 'rake'
-require 'rails'
+require "rake"
+require "rails"
 
 import File.join(File.dirname(__FILE__), 'tasks', 'db.rake')
 
 module SexyMigrations
-  class Squash
-    def call
-      delete_unnecessary_migrations
-      schema = read_schema
-    end
+  extend self
 
-    def delete_unnecessary_migrations
-      other_migrations = select_unnecessary_migrations
-      delete_files(other_migrations)
-    end
+  autoload :Cleaner, 'sexymigrations/cleaner'
+  autoload :Squasher, 'sexymigrations/squasher'
 
-    def read_schema
-      File.open(schema_location).read
-    end
+  def call
+    Cleaner.new.start
+    Squasher.new.start
+  end
 
-    private
+  def migrations_folder
+    File.join(root_path, ActiveRecord::Migrator.migrations_path)
+  end
 
-    def select_unnecessary_migrations
-      Dir.glob(File.join(migrations_folder, "**/*")).select { |filename| !filename.match(/_create_/) }
-    end
-
-    def delete_files(other_migrations)
-      File.delete(*other_migrations)
-    end
-
-    def schema_location
-      File.join(root_path, 'db/schema.rb')
-    end
-
-    def migrations_folder
-      File.join(root_path, ActiveRecord::Migrator.migrations_path)
-    end
-
-    def root_path
-      Rails.root
-    end
+  def root_path
+    Rails.root
   end
 end
