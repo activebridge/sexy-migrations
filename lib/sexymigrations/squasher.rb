@@ -6,6 +6,7 @@ module SexyMigrations
         find_table_name(selected_block)
         rewrite_migration(selected_block)
         append_foreign_keys_and_indexes
+        append_ending_info
       end
     end
 
@@ -22,6 +23,12 @@ module SexyMigrations
       file.puts("class Create#{@table_name} < ActiveRecord::Migration\n\tdef change")
     end
 
+    def append_ending_info
+      File.open(matched_migration, 'a') do |f|
+        f.write("  end\nend")
+      end
+    end
+
     def read_schema
       @schema = File.open(schema_location).read
     end
@@ -35,7 +42,7 @@ module SexyMigrations
     def append_foreign_keys_and_indexes
       File.foreach(schema_location) do |line|
         if line =~ /add_index "#{@table_name}"|add_foreign_key "#{@table_name}"/
-          File.open(Dir.glob(File.join(SexyMigrations.migrations_folder, "**/*")).select { |f| f.match("#{@table_name}") }.first, 'a') do |f|
+          File.open(matched_migration, 'a') do |f|
             f.puts
             f.write(line)
           end
