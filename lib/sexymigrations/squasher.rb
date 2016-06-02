@@ -20,7 +20,7 @@ module SexyMigrations
     end
 
     def append_starting_info(file)
-      file.puts("class Create#{@table_name} < ActiveRecord::Migration\n\tdef change")
+      file.puts("class Create#{@table_name.camelize} < ActiveRecord::Migration\n\tdef change")
     end
 
     def append_ending_info
