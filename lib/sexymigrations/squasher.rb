@@ -2,7 +2,8 @@ module SexyMigrations
   class Squasher
     def start
       read_schema
-      select_create_table.select do |block|
+      create_table.select do |selected_block|
+        table_name(selected_block)
       end
     end
 
@@ -16,12 +17,12 @@ module SexyMigrations
 
     private
 
-    def select_create_table
+    def create_table
       @schema.scan(/create_table.*?end$/m)
     end
 
-    def table_name
-      @table_name = scan(/create_table.*?end$/m).select
+    def table_name(selected_block)
+      selected_block.scan(/create_table\s*"([^"]+)"/).dig(0,0)
     end
   end
 end
