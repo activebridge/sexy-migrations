@@ -13,14 +13,15 @@ module SexyMigrations
     def rewrite_migration(selected_block)
       File.open(matched_migration, 'w') do |f|
         append_starting_info(f)
-        f.write("  ")
+        f.write('  ')
         f.write(selected_block)
         f.puts
       end
     end
 
     def append_starting_info(file)
-      file.puts("class Create#{@table_name.camelize} < ActiveRecord::Migration\n\tdef change")
+      file.puts("class Create#{@table_name.camelize} <
+                ActiveRecord::Migration\n\tdef change")
     end
 
     def append_ending_info
@@ -51,7 +52,7 @@ module SexyMigrations
     end
 
     def matched_migration
-      Dir.glob(File.join(SexyMigrations.migrations_folder, "**/*")).select { |f| f.match("#{@table_name}") }.first
+      Dir.glob(File.join(SexyMigrations.migrations_folder, '**/*')).select { |f| f.match(@table_name.to_s) }.first
     end
 
     def create_table
@@ -59,7 +60,7 @@ module SexyMigrations
     end
 
     def find_table_name(selected_block)
-      @table_name = selected_block.scan(/create_table\s*"([^"]+)"/).dig(0,0)
+      @table_name = selected_block.scan(/create_table\s*"([^"]+)"/).dig(0, 0)
     end
   end
 end

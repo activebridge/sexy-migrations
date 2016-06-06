@@ -1,10 +1,10 @@
-require "rake"
-require "rails"
+require 'rake'
+require 'rails'
 
 import File.join(File.dirname(__FILE__), 'tasks', 'db.rake')
 
 module SexyMigrations
-  extend self
+  module_function
 
   autoload :Cleaner, 'sexymigrations/cleaner'
   autoload :Squasher, 'sexymigrations/squasher'
