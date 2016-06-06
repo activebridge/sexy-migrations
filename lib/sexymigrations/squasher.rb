@@ -67,5 +67,16 @@ module SexyMigrations
     def find_table_name(selected_block)
       @table_name = selected_block.scan(/create_table\s*"([^"]+)"/).dig(0, 0)
     end
+
+    def set_last_version
+      Dir.foreach(SexyMigrations.migrations_folder) do |item|
+        @matched_version = true if item.match("#{@schema_version}")
+      end
+
+      if !@matched_version
+        migration = Dir.glob(Rails.root.join('db/migrate/**.*')).max
+        appropriate_version = migration.match(/(\d+)_/).captures.first
+      end
+    end
   end
 end
