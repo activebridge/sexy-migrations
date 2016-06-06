@@ -12,7 +12,7 @@ module SexyMigrations
     private
 
     def select_unnecessary_migrations
-      @other_migrations = Dir.glob(File.join(SexyMigrations.migrations_folder, "**/*")).select do |filename|
+      @other_migrations = Dir.glob(File.join(SexyMigrations.migrations_folder, '**/*')).select do |filename|
         !filename.match(/_create_/)
       end
     end
