@@ -8,6 +8,7 @@ module SexyMigrations
         append_foreign_keys_and_indexes
         append_ending_info
       end
+      correct_schema_version
     end
 
     def rewrite_migration(selected_block)
@@ -20,14 +21,18 @@ module SexyMigrations
     end
 
     def append_starting_info(file)
-      file.puts("class Create#{@table_name.camelize} <
-                ActiveRecord::Migration\n\tdef change")
+      file.puts("class Create#{@table_name.camelize} < ActiveRecord::Migration\n\tdef change")
     end
 
     def append_ending_info
       File.open(matched_migration, 'a') do |f|
         f.write("  end\nend")
       end
+    end
+
+    def correct_schema_version
+      @schema_version = @schema.match(/version: (\d+)/).captures.first
+      set_last_version
     end
 
     def read_schema
