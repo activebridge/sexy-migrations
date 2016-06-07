@@ -9,7 +9,6 @@ module SexyMigrations
         append_ending_info
       end
       correct_schema_version
-      reset_database
     end
 
     def rewrite_migration(selected_block)
@@ -44,10 +43,6 @@ module SexyMigrations
       File.join(SexyMigrations.root_path, 'db/schema.rb')
     end
 
-    def reset_database
-      system 'rake db:migrate'
-    end
-
     private
 
     def append_foreign_keys_and_indexes
@@ -62,7 +57,7 @@ module SexyMigrations
     end
 
     def matched_migration
-      Dir.glob(File.join(SexyMigrations.migrations_folder, '**/*')).select { |f| f.match(@table_name.to_s) }.first
+      Dir.glob(File.join(SexyMigrations.migrations_folder, '/*.rb')).select { |f| f.match(/create\_#{@table_name}\.rb$/) }.first
     end
 
     def create_table
@@ -93,7 +88,7 @@ module SexyMigrations
     def replace_text
       text = File.open(schema_location).read
       new_content = text.gsub(/version: (\d+)/, @appropriate_version)
-      File.open(schema_location, "w") {|file| file.puts new_content }
+      File.open(schema_location, "w") { |file| file.puts new_content }
     end
   end
 end
