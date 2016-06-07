@@ -3,8 +3,8 @@ lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |spec|
-  spec.name          = 'sexymigrations'
-  spec.version       = '0.0.1'
+  spec.name          = 'sexy-migrations'
+  spec.version       = '0.1.0'
   spec.authors       = ['AlexShmatko']
   spec.email         = ['alex.shmatko@active-bridge.com']
 
