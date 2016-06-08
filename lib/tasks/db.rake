@@ -2,7 +2,7 @@ require 'sexymigrations'
 
 namespace :db do
   desc 'Make migrations look pretty'
-  task :squash do
+  task squash: :environment do
     SexyMigrations.call
   end
 end
